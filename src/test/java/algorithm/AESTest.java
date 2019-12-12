@@ -1,3 +1,5 @@
+package algorithm;
+
 import static utils.ArrayTestUtils.intArrayToStr;
 import static utils.ArrayTestUtils.strToIntArray;
 
@@ -10,7 +12,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import drofff.crypto.AES;
+import drofff.crypto.algorithm.AES;
 import drofff.crypto.block.KeyExpansion;
 import drofff.crypto.enums.Size;
 import drofff.crypto.utils.WordsBuffer;

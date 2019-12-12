@@ -1,9 +1,14 @@
 package block;
 
+import java.util.stream.IntStream;
+
 import org.junit.Assert;
 import org.junit.Test;
 
 import drofff.crypto.block.SubBytes;
+import drofff.crypto.block.SubTable;
+import drofff.crypto.utils.ArrayUtils;
+import drofff.crypto.utils.WordsBuffer;
 
 public class SubBytesTest {
 
@@ -25,10 +30,22 @@ public class SubBytesTest {
 
 	@Test
 	public void inversionTest() {
-		int [] testArray = new int[] { 0x56, 0x1f, 0x3e, 0x11 };
-		int [] substitutedArray = SubBytes.substitute(testArray);
+		int[][] substitutionTable = SubTable.SUBSTITUTION_TABLE.get();
+		int substitutionTableElementsCount = substitutionTable.length * substitutionTable[0].length;
+		int[] generatedBytes = IntStream.range(0, substitutionTableElementsCount).toArray();
+		WordsBuffer wordsBuffer = new WordsBuffer(substitutionTableElementsCount);
+		wordsBuffer.addAllWordsFromArray(generatedBytes);
+		wordsBuffer.processEachWord(word -> {
+			int [] outboxWord = ArrayUtils.outboxArray(word);
+			assertArrayInversion(outboxWord);
+			return word;
+		});
+	}
+
+	private void assertArrayInversion(int [] array) {
+		int [] substitutedArray = SubBytes.substitute(array);
 		int [] inverseSubstitutedArray = SubBytes.inverseSubstitute(substitutedArray);
-		Assert.assertArrayEquals(testArray, inverseSubstitutedArray);
+		Assert.assertArrayEquals(array, inverseSubstitutedArray);
 	}
 
 }

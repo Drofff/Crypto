@@ -1,4 +1,4 @@
-package drofff.crypto;
+package drofff.crypto.algorithm;
 
 import java.util.Arrays;
 import java.util.List;
