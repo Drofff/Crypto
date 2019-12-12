@@ -25,7 +25,7 @@ public class AESTest {
 	@Before
 	public void init() {
 		aes = new AES(Size._128_BITS, Size._128_BITS);
-		String text = "Hello, world! I am glad to see you!".substring(0, 16);
+		String text = UUID.randomUUID().toString().substring(0, 16);
 		testData = strToIntArray(text);
 		String randomKey = UUID.randomUUID().toString().substring(0, 16);
 		testKey = strToIntArray(randomKey);
