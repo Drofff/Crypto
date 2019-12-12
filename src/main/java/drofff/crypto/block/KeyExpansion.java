@@ -9,7 +9,6 @@ import drofff.crypto.utils.WordsBuffer;
 public class KeyExpansion {
 
 	public static final int WORD_SIZE = 4;
-
 	private static final int ROT_WORD_SHIFT = 1;
 
 	private int expandedKeySize;
@@ -68,7 +67,7 @@ public class KeyExpansion {
 	}
 
 	private int getRoundConstantFirstByteByIndex(int roundIndex) {
-		if(roundIndex == 0) {
+		if(roundIndex == 1) {
 			return 1;
 		}
 		int previousRoundConstantFirstByte = getRoundConstantFirstByteByIndex(roundIndex - 1);

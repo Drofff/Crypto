@@ -3,6 +3,8 @@ package drofff.crypto.utils;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.function.UnaryOperator;
+import java.util.stream.Collectors;
 
 import drofff.crypto.exception.AESException;
 
@@ -22,6 +24,11 @@ public class WordsBuffer {
 		words.add(word);
 	}
 
+	public void addAllWordsFromArray(int [] array) {
+		Integer [] inboxArray = ArrayUtils.inboxArray(array);
+		addAllWordsFromArray(inboxArray);
+	}
+
 	public void addAllWordsFromArray(Integer [] array) {
 		int wordsCount = array.length / wordSize;
 		for(int i = 0; i < wordsCount; i++) {
@@ -38,6 +45,20 @@ public class WordsBuffer {
 
 	public List<Integer[]> getWordsAtRange(int from, int to) {
 		return words.subList(from, to);
+	}
+
+	public void processEachWord(UnaryOperator<Integer[]> processingFunction) {
+		words = words.stream()
+				.map(processingFunction)
+				.collect(Collectors.toList());
+	}
+
+	public Integer [] toArray() {
+		List<Integer> bytesList = words.stream()
+				.map(Arrays::stream)
+				.flatMap(x -> x)
+				.collect(Collectors.toList());
+		return bytesList.toArray(new Integer[] {});
 	}
 
 }

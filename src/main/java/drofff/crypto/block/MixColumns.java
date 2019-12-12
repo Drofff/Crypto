@@ -32,14 +32,10 @@ public class MixColumns {
 	}
 
 	private static void validateInputArraySize(int [] array) {
-		int requiredInputArraySize = getRequiredInputArraySize();
+		int requiredInputArraySize = MIX_COLUMN_MATRIX.length;
 		if(array.length != requiredInputArraySize) {
 			throw new AESException("Invalid array size. Size should be " + requiredInputArraySize + " bytes");
 		}
-	}
-
-	public static int getRequiredInputArraySize() {
-		return MIX_COLUMN_MATRIX.length;
 	}
 
 }

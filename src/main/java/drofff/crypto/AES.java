@@ -1,8 +1,8 @@
 package drofff.crypto;
 
-import java.nio.IntBuffer;
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.UnaryOperator;
 import java.util.stream.Collectors;
 
 import drofff.crypto.block.KeyExpansion;
@@ -36,7 +36,7 @@ public class AES {
 		validateKeySize(key);
 		WordsBuffer expandedKey = keyExpansionBlock.generateExpandedKey(key);
 		data = addRoundKey(data, 0, expandedKey);
-		for(int round = 1; round < roundsCount; round++) {
+		for(int round = 1; round <= roundsCount; round++) {
 			int [] substitutedData = SubBytes.substitute(data);
 			int [] shiftedData = ShiftRows.shift(substitutedData);
 			if(isNotLastRound(round)) {
@@ -53,20 +53,24 @@ public class AES {
 		validateBlockSize(data);
 		validateKeySize(key);
 		WordsBuffer expandedKey = keyExpansionBlock.generateExpandedKey(key);
-		data = addRoundKey(data, 0, expandedKey);
-		for(int round = 1; round < roundsCount; round++) {
+		data = addRoundKey(data, roundsCount, expandedKey);
+		for(int round = roundsCount - 1; round >= 0; round--) {
 			int [] inverseShiftedData = ShiftRows.inverseShift(data);
 			int [] inverseSubstitutedData = SubBytes.inverseSubstitute(inverseShiftedData);
 			data = addRoundKey(inverseSubstitutedData, round, expandedKey);
-			if(isNotLastRound(round)) {
-				data = mixColumns(data);
+			if(isNotFirstRound(round)) {
+				data = inverseMixColumns(data);
 			}
 		}
 		return data;
 	}
 
 	private boolean isNotLastRound(int round) {
-		return round != (roundsCount - 1);
+		return round != roundsCount;
+	}
+
+	private boolean isNotFirstRound(int round) {
+		return round != 0;
 	}
 
 	private void validateBlockSize(int [] block) {
@@ -99,15 +103,23 @@ public class AES {
 	}
 
 	private int [] mixColumns(int [] block) {
-		IntBuffer blockBuffer = IntBuffer.allocate(block.length);
-		int inputBlockSize = MixColumns.getRequiredInputArraySize();
-		for(int i = 0; i < block.length; i += inputBlockSize) {
-			int rangeEndPosition = i + inputBlockSize;
-			int [] subBlock = Arrays.copyOfRange(block, i, rangeEndPosition);
-			int [] mixedSubBlock = MixColumns.mix(subBlock);
-			blockBuffer.put(mixedSubBlock);
-		}
-		return blockBuffer.array();
+		return applyToEachWordOfBlock(block, MixColumns::mix);
+	}
+
+	private int [] inverseMixColumns(int [] block) {
+		return applyToEachWordOfBlock(block, MixColumns::inverseMix);
+	}
+
+	private int [] applyToEachWordOfBlock(int [] block, UnaryOperator<int[]> function) {
+		WordsBuffer wordsBuffer = new WordsBuffer(KeyExpansion.WORD_SIZE);
+		wordsBuffer.addAllWordsFromArray(block);
+		wordsBuffer.processEachWord(word -> {
+			int [] outboxWord = ArrayUtils.outboxArray(word);
+			int [] resultWord = function.apply(outboxWord);
+			return ArrayUtils.inboxArray(resultWord);
+		});
+		Integer [] resultBlock = wordsBuffer.toArray();
+		return ArrayUtils.outboxArray(resultBlock);
 	}
 
 }
