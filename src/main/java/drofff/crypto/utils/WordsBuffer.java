@@ -47,6 +47,10 @@ public class WordsBuffer {
 		return words.subList(from, to);
 	}
 
+	public List<Integer[]> getAllWords() {
+		return new LinkedList<>(words);
+	}
+
 	public void processEachWord(UnaryOperator<Integer[]> processingFunction) {
 		words = words.stream()
 				.map(processingFunction)

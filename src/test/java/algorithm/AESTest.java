@@ -1,7 +1,7 @@
 package algorithm;
 
-import static utils.ArrayTestUtils.intArrayToStr;
-import static utils.ArrayTestUtils.strToIntArray;
+import static drofff.crypto.utils.ArrayUtils.intArrayToStr;
+import static drofff.crypto.utils.ArrayUtils.strToIntArray;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;

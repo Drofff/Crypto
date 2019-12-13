@@ -15,7 +15,7 @@ import drofff.crypto.exception.AESException;
 import drofff.crypto.utils.ArrayUtils;
 import drofff.crypto.utils.WordsBuffer;
 
-public class AES {
+public class AES implements CryptoAlgorithm {
 
 	private int keySize;
 	private int blockSize;
@@ -63,6 +63,11 @@ public class AES {
 			}
 		}
 		return data;
+	}
+
+	@Override
+	public int getInputBlockSize() {
+		return blockSize;
 	}
 
 	private boolean isNotLastRound(int round) {

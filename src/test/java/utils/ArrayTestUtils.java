@@ -1,8 +1,5 @@
 package utils;
 
-import java.nio.charset.StandardCharsets;
-import java.util.stream.IntStream;
-
 public class ArrayTestUtils {
 
 	private ArrayTestUtils() {}
@@ -27,21 +24,6 @@ public class ArrayTestUtils {
 		}
 		arrayStr.append("]");
 		System.out.println(arrayStr);
-	}
-
-	public static int [] strToIntArray(String str) {
-		int [] intArray = new int[str.length()];
-		byte [] bytes = str.getBytes(StandardCharsets.ISO_8859_1);
-		IntStream.range(0, bytes.length)
-				.forEach(index -> intArray[index] = bytes[index]);
-		return intArray;
-	}
-
-	public static String intArrayToStr(int [] array) {
-		byte [] bytes = new byte[array.length];
-		IntStream.range(0, array.length)
-				.forEach(index -> bytes[index] = (byte) array[index]);
-		return new String(bytes);
 	}
 
 }
