@@ -1,12 +1,15 @@
 package drofff.crypto.mode;
 
+import drofff.crypto.algorithm.CryptoAlgorithm;
+import drofff.crypto.utils.ArrayUtils;
+import drofff.crypto.utils.CBCUtils;
+
+import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.IntStream;
 
-import drofff.crypto.algorithm.CryptoAlgorithm;
-import drofff.crypto.utils.ArrayUtils;
-import drofff.crypto.utils.WordsBuffer;
+import static drofff.crypto.utils.CBCUtils.divideIntoBlocks;
 
 public class CBCEncoder implements CipherMode {
 
@@ -17,6 +20,7 @@ public class CBCEncoder implements CipherMode {
 	private Integer[] initVector;
 	private int[] key;
 	private List<Integer[]> blocks;
+	private List<Integer[]> encryptedBlocks;
 
 	private CBCEncoder() {}
 
@@ -30,9 +34,9 @@ public class CBCEncoder implements CipherMode {
 	public synchronized String apply(String text, String key) {
 		this.key = ArrayUtils.strToIntArray(key);
 		String preprocessedText = preprocessText(text);
-		this.blocks = divideIntoBlocks(preprocessedText);
-		int rounds = blocks.size() - 1;
-		Integer[] encryptedText = doRecursiveChainEncryption(rounds);
+		int blockSize = cryptoAlgorithm.getInputBlockSize();
+		this.blocks = divideIntoBlocks(preprocessedText, blockSize);
+		Integer[] encryptedText = applyChainEncryption();
 		int[] encryptedTextOutbox = ArrayUtils.outboxArray(encryptedText);
 		return postprocessText(encryptedTextOutbox);
 	}
@@ -65,21 +69,20 @@ public class CBCEncoder implements CipherMode {
 		return initVectorStr + encryptedTextStr;
 	}
 
-	private List<Integer[]> divideIntoBlocks(String text) {
-		int blockSize = cryptoAlgorithm.getInputBlockSize();
-		WordsBuffer blocksBuffer = new WordsBuffer(blockSize);
-		int[] textArray = ArrayUtils.strToIntArray(text);
-		blocksBuffer.addAllWordsFromArray(textArray);
-		return blocksBuffer.getAllWords();
+	private Integer[] applyChainEncryption() {
+		int lastBlockIndex = blocks.size() - 1;
+		encryptedBlocks = new LinkedList<>();
+		applyRecursiveChainEncryption(lastBlockIndex);
+		return CBCUtils.mergeBlocks(encryptedBlocks);
 	}
 
-	private Integer[] doRecursiveChainEncryption(int rounds) {
-		if(rounds == 0) {
+	private Integer[] applyRecursiveChainEncryption(int blockIndex) {
+		if(blockIndex == 0) {
 			generateInitializationVector();
-			return doEncrypt(initVector, blocks.get(rounds));
+			return encryptBlock(initVector, blocks.get(blockIndex));
 		}
-		Integer[] previousCipherText = doRecursiveChainEncryption(rounds - 1);
-		return doEncrypt(previousCipherText, blocks.get(rounds));
+		Integer[] previousBlock = applyRecursiveChainEncryption(blockIndex - 1);
+		return encryptBlock(previousBlock, blocks.get(blockIndex));
 	}
 
 	private void generateInitializationVector() {
@@ -89,11 +92,13 @@ public class CBCEncoder implements CipherMode {
 		this.initVector = ArrayUtils.inboxArray(initializationVector);
 	}
 
-	private Integer[] doEncrypt(Integer[] previousCipherText, Integer[] text) {
-		Integer[] inputBlock = ArrayUtils.xorArrays(previousCipherText, text);
-		int[] inputBlockOutbox = ArrayUtils.outboxArray(inputBlock);
-		int[] cipherText = cryptoAlgorithm.encrypt(inputBlockOutbox, key);
-		return ArrayUtils.inboxArray(cipherText);
+	private Integer[] encryptBlock(Integer[] previousBlock, Integer[] block) {
+		Integer[] xoredBlock = ArrayUtils.xorArrays(previousBlock, block);
+		int[] xoredBlockOutbox = ArrayUtils.outboxArray(xoredBlock);
+		int[] encryptedBlock = cryptoAlgorithm.encrypt(xoredBlockOutbox, key);
+		Integer[] encryptedBlockInbox = ArrayUtils.inboxArray(encryptedBlock);
+		encryptedBlocks.add(encryptedBlockInbox);
+		return encryptedBlockInbox;
 	}
 
 }
