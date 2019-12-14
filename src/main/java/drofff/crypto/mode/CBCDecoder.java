@@ -6,8 +6,13 @@ import drofff.crypto.utils.CBCUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class CBCDecoder implements CipherMode {
+
+    private static final String COMPLEMENTARY_SYMBOLS_PATTERN = "\\S+(" + CBCUtils.COMPLEMENTARY_SYMBOL_REGEX + "+)$";
+    private static final Integer COMPLEMENTARY_SYMBOLS_PATTERN_GROUP = 1;
 
     private CryptoAlgorithm cryptoAlgorithm;
 
@@ -22,27 +27,38 @@ public class CBCDecoder implements CipherMode {
     }
 
     @Override
-    public synchronized String apply(String cipherText, String key) {
+    public synchronized String apply(String text, String key) {
         this.key = ArrayUtils.strToIntArray(key);
-        Integer[] initVector = extractInitializationVector(cipherText);
-        String cipherTextPayload = extractPayload(cipherText);
+        Integer[] initVector = extractInitializationVector(text);
+        String cipherText = extractCipherText(text);
         int blockSize = cryptoAlgorithm.getInputBlockSize();
-        List<Integer[]> payloadBlocks = CBCUtils.divideIntoBlocks(cipherTextPayload, blockSize);
-        Integer[] decryptedText = applyChainDecryption(initVector, payloadBlocks);
-        int[] decryptedTextOutbox = ArrayUtils.outboxArray(decryptedText);
-        return ArrayUtils.intArrayToStr(decryptedTextOutbox);
+        List<Integer[]> cipherTextBlocks = CBCUtils.divideIntoBlocks(cipherText, blockSize);
+        Integer[] decryptedTextBlocks = applyChainDecryption(initVector, cipherTextBlocks);
+        int[] decryptedTextBlocksOutbox = ArrayUtils.outboxArray(decryptedTextBlocks);
+        String decryptedText = ArrayUtils.intArrayToStr(decryptedTextBlocksOutbox);
+        return removeComplementarySymbols(decryptedText);
     }
 
-    private Integer[] extractInitializationVector(String cipherText) {
+    private String removeComplementarySymbols(String text) {
+        Matcher matcher = Pattern.compile(COMPLEMENTARY_SYMBOLS_PATTERN)
+                .matcher(text);
+        if(matcher.find()) {
+            int complementaryStart = matcher.start(COMPLEMENTARY_SYMBOLS_PATTERN_GROUP);
+            return text.substring(0, complementaryStart);
+        }
+        return text;
+    }
+
+    private Integer[] extractInitializationVector(String text) {
         int initVectorSize = cryptoAlgorithm.getInputBlockSize();
-        String initVectorStr = cipherText.substring(0, initVectorSize);
+        String initVectorStr = text.substring(0, initVectorSize);
         int[] initVector = ArrayUtils.strToIntArray(initVectorStr);
         return ArrayUtils.inboxArray(initVector);
     }
 
-    private String extractPayload(String cipherText) {
+    private String extractCipherText(String text) {
         int initVectorSize = cryptoAlgorithm.getInputBlockSize();
-        return cipherText.substring(initVectorSize);
+        return text.substring(initVectorSize);
     }
 
     private Integer[] applyChainDecryption(Integer[] initVector, List<Integer[]> blocks) {

@@ -6,6 +6,9 @@ import java.util.stream.Collectors;
 
 public class CBCUtils {
 
+    public static final String COMPLEMENTARY_SYMBOL = " ";
+    public static final String COMPLEMENTARY_SYMBOL_REGEX = "\\s";
+
     private CBCUtils() {}
 
     public static List<Integer[]> divideIntoBlocks(String text, int blockSize) {

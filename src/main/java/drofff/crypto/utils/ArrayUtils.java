@@ -1,32 +1,15 @@
 package drofff.crypto.utils;
 
+import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.stream.IntStream;
 
-import drofff.crypto.exception.AESException;
-
 public class ArrayUtils {
 
+	private static final Charset CHARSET = StandardCharsets.ISO_8859_1;
+
 	private ArrayUtils() {}
-
-	public static <T> boolean isElementInArray(T element, T [] array) {
-		for(T arrayElement : array) {
-			if(element.equals(arrayElement)) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	public static <T> int indexOfElementInArray(T element, T [] array) {
-		for(int i = 0; i < array.length; i++) {
-			if(element.equals(array[i])) {
-				return i;
-			}
-		}
-		throw new AESException("Not element of array");
-	}
 
 	public static Integer[] inboxArray(int [] array) {
 		Integer[] resultArray = new Integer[array.length];
@@ -106,7 +89,7 @@ public class ArrayUtils {
 
 	public static int [] strToIntArray(String str) {
 		int [] intArray = new int[str.length()];
-		byte [] bytes = str.getBytes(StandardCharsets.ISO_8859_1);
+		byte [] bytes = str.getBytes(CHARSET);
 		IntStream.range(0, bytes.length)
 				.forEach(index -> intArray[index] = bytes[index]);
 		return intArray;
@@ -116,7 +99,7 @@ public class ArrayUtils {
 		byte [] bytes = new byte[array.length];
 		IntStream.range(0, array.length)
 				.forEach(index -> bytes[index] = (byte) array[index]);
-		return new String(bytes);
+		return new String(bytes, CHARSET);
 	}
 
 }

@@ -9,11 +9,10 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.IntStream;
 
+import static drofff.crypto.utils.CBCUtils.COMPLEMENTARY_SYMBOL;
 import static drofff.crypto.utils.CBCUtils.divideIntoBlocks;
 
 public class CBCEncoder implements CipherMode {
-
-	private static final String COMPLEMENTARY_SYMBOL = " ";
 
 	private CryptoAlgorithm cryptoAlgorithm;
 
@@ -33,15 +32,15 @@ public class CBCEncoder implements CipherMode {
 	@Override
 	public synchronized String apply(String text, String key) {
 		this.key = ArrayUtils.strToIntArray(key);
-		String preprocessedText = preprocessText(text);
+		text = complementTextIfNeeded(text);
 		int blockSize = cryptoAlgorithm.getInputBlockSize();
-		this.blocks = divideIntoBlocks(preprocessedText, blockSize);
+		blocks = divideIntoBlocks(text, blockSize);
 		Integer[] encryptedText = applyChainEncryption();
 		int[] encryptedTextOutbox = ArrayUtils.outboxArray(encryptedText);
-		return postprocessText(encryptedTextOutbox);
+		return prependInitializationVectorToText(encryptedTextOutbox);
 	}
 
-	private String preprocessText(String text) {
+	private String complementTextIfNeeded(String text) {
 		int inputBlockSize = cryptoAlgorithm.getInputBlockSize();
 		if(!isDividableIntoBlocks(text, inputBlockSize)) {
 			return complementTextToBlockSize(text, inputBlockSize);
@@ -62,11 +61,11 @@ public class CBCEncoder implements CipherMode {
 		return complementedText.toString();
 	}
 
-	private String postprocessText(int[] encryptedText) {
-		String encryptedTextStr = ArrayUtils.intArrayToStr(encryptedText);
+	private String prependInitializationVectorToText(int[] text) {
+		String textStr = ArrayUtils.intArrayToStr(text);
 		int[] initVectorOutbox = ArrayUtils.outboxArray(initVector);
 		String initVectorStr = ArrayUtils.intArrayToStr(initVectorOutbox);
-		return initVectorStr + encryptedTextStr;
+		return initVectorStr + textStr;
 	}
 
 	private Integer[] applyChainEncryption() {
