@@ -15,7 +15,7 @@ import org.junit.Test;
 import drofff.crypto.algorithm.AES;
 import drofff.crypto.block.KeyExpansion;
 import drofff.crypto.enums.Size;
-import drofff.crypto.utils.WordsBuffer;
+import drofff.crypto.dto.WordsBuffer;
 
 public class AESTest {
 

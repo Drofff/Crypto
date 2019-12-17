@@ -4,6 +4,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import drofff.crypto.dto.WordsBuffer;
+
 public class CBCUtils {
 
     public static final String COMPLEMENTARY_SYMBOL = " ";

@@ -1,6 +1,6 @@
 package drofff.crypto.block;
 
-import static drofff.crypto.utils.GaloisFieldUtils.galoisMatrixMultiplication;
+import static drofff.crypto.utils.MathUtils.galoisMatrixMultiplication;
 
 import drofff.crypto.exception.AESException;
 

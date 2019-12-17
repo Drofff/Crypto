@@ -8,7 +8,7 @@ import org.junit.Test;
 import drofff.crypto.block.SubBytes;
 import drofff.crypto.block.SubTable;
 import drofff.crypto.utils.ArrayUtils;
-import drofff.crypto.utils.WordsBuffer;
+import drofff.crypto.dto.WordsBuffer;
 
 public class SubBytesTest {
 

@@ -13,7 +13,7 @@ import drofff.crypto.enums.RoundsCount;
 import drofff.crypto.enums.Size;
 import drofff.crypto.exception.AESException;
 import drofff.crypto.utils.ArrayUtils;
-import drofff.crypto.utils.WordsBuffer;
+import drofff.crypto.dto.WordsBuffer;
 
 public class AES implements CryptoAlgorithm {
 

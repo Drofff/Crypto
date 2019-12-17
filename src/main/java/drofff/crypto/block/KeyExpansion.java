@@ -3,8 +3,8 @@ package drofff.crypto.block;
 import drofff.crypto.enums.RoundsCount;
 import drofff.crypto.enums.Size;
 import drofff.crypto.utils.ArrayUtils;
-import drofff.crypto.utils.GaloisFieldUtils;
-import drofff.crypto.utils.WordsBuffer;
+import drofff.crypto.utils.MathUtils;
+import drofff.crypto.dto.WordsBuffer;
 
 public class KeyExpansion {
 
@@ -71,7 +71,7 @@ public class KeyExpansion {
 			return 1;
 		}
 		int previousRoundConstantFirstByte = getRoundConstantFirstByteByIndex(roundIndex - 1);
-		return GaloisFieldUtils.multiplyInGaloisField(2, previousRoundConstantFirstByte);
+		return MathUtils.multiplyInGaloisField(2, previousRoundConstantFirstByte);
 	}
 
 }
