@@ -1,10 +1,10 @@
-package drofff.crypto.utils;
+package com.drofff.crypto.utils;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import drofff.crypto.dto.WordsBuffer;
+import com.drofff.crypto.dto.WordsBuffer;
 
 public class CBCUtils {
 

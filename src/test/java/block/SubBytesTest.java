@@ -5,10 +5,10 @@ import java.util.stream.IntStream;
 import org.junit.Assert;
 import org.junit.Test;
 
-import drofff.crypto.block.SubBytes;
-import drofff.crypto.block.SubTable;
-import drofff.crypto.utils.ArrayUtils;
-import drofff.crypto.dto.WordsBuffer;
+import com.drofff.crypto.block.SubBytes;
+import com.drofff.crypto.block.SubTable;
+import com.drofff.crypto.utils.ArrayUtils;
+import com.drofff.crypto.dto.WordsBuffer;
 
 public class SubBytesTest {
 

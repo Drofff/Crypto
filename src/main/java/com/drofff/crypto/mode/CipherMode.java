@@ -1,4 +1,4 @@
-package drofff.crypto.mode;
+package com.drofff.crypto.mode;
 
 public interface CipherMode {
 

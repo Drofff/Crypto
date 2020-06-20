@@ -3,10 +3,10 @@ package algorithm;
 import org.junit.Assert;
 import org.junit.Test;
 
-import drofff.crypto.algorithm.RSA;
-import drofff.crypto.dto.RSAKey;
-import drofff.crypto.dto.RSAKeys;
-import drofff.crypto.utils.ArrayUtils;
+import com.drofff.crypto.algorithm.RSA;
+import com.drofff.crypto.dto.RSAKey;
+import com.drofff.crypto.dto.RSAKeys;
+import com.drofff.crypto.utils.ArrayUtils;
 
 public class RSATest {
 

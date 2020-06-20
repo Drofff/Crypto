@@ -1,4 +1,4 @@
-package drofff.crypto.dto;
+package com.drofff.crypto.dto;
 
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -6,8 +6,8 @@ import java.util.List;
 import java.util.function.UnaryOperator;
 import java.util.stream.Collectors;
 
-import drofff.crypto.exception.AESException;
-import drofff.crypto.utils.ArrayUtils;
+import com.drofff.crypto.exception.AESException;
+import com.drofff.crypto.utils.ArrayUtils;
 
 public class WordsBuffer {
 

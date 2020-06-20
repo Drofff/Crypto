@@ -3,7 +3,7 @@ package utils;
 import org.junit.Assert;
 import org.junit.Test;
 
-import drofff.crypto.utils.MathUtils;
+import com.drofff.crypto.utils.MathUtils;
 
 public class MathUtilsTest {
 

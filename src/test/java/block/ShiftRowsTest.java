@@ -3,7 +3,7 @@ package block;
 import org.junit.Assert;
 import org.junit.Test;
 
-import drofff.crypto.block.ShiftRows;
+import com.drofff.crypto.block.ShiftRows;
 
 public class ShiftRowsTest {
 

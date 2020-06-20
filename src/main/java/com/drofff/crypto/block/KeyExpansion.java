@@ -1,10 +1,10 @@
-package drofff.crypto.block;
+package com.drofff.crypto.block;
 
-import drofff.crypto.enums.RoundsCount;
-import drofff.crypto.enums.Size;
-import drofff.crypto.utils.ArrayUtils;
-import drofff.crypto.utils.MathUtils;
-import drofff.crypto.dto.WordsBuffer;
+import com.drofff.crypto.enums.RoundsCount;
+import com.drofff.crypto.enums.Size;
+import com.drofff.crypto.utils.ArrayUtils;
+import com.drofff.crypto.utils.MathUtils;
+import com.drofff.crypto.dto.WordsBuffer;
 
 public class KeyExpansion {
 

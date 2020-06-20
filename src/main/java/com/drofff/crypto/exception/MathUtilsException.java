@@ -1,4 +1,4 @@
-package drofff.crypto.exception;
+package com.drofff.crypto.exception;
 
 public class MathUtilsException extends RuntimeException {
 

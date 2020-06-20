@@ -1,16 +1,13 @@
-package drofff.crypto.mode;
+package com.drofff.crypto.mode;
 
-import drofff.crypto.algorithm.CryptoAlgorithm;
-import drofff.crypto.utils.ArrayUtils;
-import drofff.crypto.utils.CBCUtils;
+import com.drofff.crypto.algorithm.CryptoAlgorithm;
+import com.drofff.crypto.utils.ArrayUtils;
+import com.drofff.crypto.utils.CBCUtils;
 
 import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.IntStream;
-
-import static drofff.crypto.utils.CBCUtils.COMPLEMENTARY_SYMBOL;
-import static drofff.crypto.utils.CBCUtils.divideIntoBlocks;
 
 public class CBCEncoder implements CipherMode {
 
@@ -34,7 +31,7 @@ public class CBCEncoder implements CipherMode {
 		this.key = ArrayUtils.strToIntArray(key);
 		text = complementTextIfNeeded(text);
 		int blockSize = cryptoAlgorithm.getInputBlockSize();
-		blocks = divideIntoBlocks(text, blockSize);
+		blocks = CBCUtils.divideIntoBlocks(text, blockSize);
 		Integer[] encryptedText = applyChainEncryption();
 		int[] encryptedTextOutbox = ArrayUtils.outboxArray(encryptedText);
 		return prependInitializationVectorToText(encryptedTextOutbox);
@@ -57,7 +54,7 @@ public class CBCEncoder implements CipherMode {
 		int blocksDiff = blockSize - lastBlockSize;
 		StringBuilder complementedText = new StringBuilder(text);
 		IntStream.range(0, blocksDiff)
-				.forEach(i -> complementedText.append(COMPLEMENTARY_SYMBOL));
+				.forEach(i -> complementedText.append(CBCUtils.COMPLEMENTARY_SYMBOL));
 		return complementedText.toString();
 	}
 

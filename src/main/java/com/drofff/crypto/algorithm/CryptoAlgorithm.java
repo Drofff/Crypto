@@ -1,4 +1,4 @@
-package drofff.crypto.algorithm;
+package com.drofff.crypto.algorithm;
 
 public interface CryptoAlgorithm {
 

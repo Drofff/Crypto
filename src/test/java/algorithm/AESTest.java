@@ -1,7 +1,7 @@
 package algorithm;
 
-import static drofff.crypto.utils.ArrayUtils.intArrayToStr;
-import static drofff.crypto.utils.ArrayUtils.strToIntArray;
+import static com.drofff.crypto.utils.ArrayUtils.intArrayToStr;
+import static com.drofff.crypto.utils.ArrayUtils.strToIntArray;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -12,10 +12,10 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import drofff.crypto.algorithm.AES;
-import drofff.crypto.block.KeyExpansion;
-import drofff.crypto.enums.Size;
-import drofff.crypto.dto.WordsBuffer;
+import com.drofff.crypto.algorithm.AES;
+import com.drofff.crypto.block.KeyExpansion;
+import com.drofff.crypto.enums.Size;
+import com.drofff.crypto.dto.WordsBuffer;
 
 public class AESTest {
 

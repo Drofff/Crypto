@@ -1,9 +1,9 @@
-package drofff.crypto.block;
+package com.drofff.crypto.block;
 
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
-import drofff.crypto.utils.ArrayUtils;
+import com.drofff.crypto.utils.ArrayUtils;
 
 public class SubBytes {
 

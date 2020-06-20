@@ -1,4 +1,4 @@
-package drofff.crypto.enums;
+package com.drofff.crypto.enums;
 
 public enum RoundsCount {
 

@@ -1,6 +1,6 @@
-package drofff.crypto.utils;
+package com.drofff.crypto.utils;
 
-import static drofff.crypto.enums.Size.BITS_IN_BYTE;
+import static com.drofff.crypto.enums.Size.BITS_IN_BYTE;
 
 import java.util.Arrays;
 import java.util.LinkedList;

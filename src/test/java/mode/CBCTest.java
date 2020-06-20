@@ -1,9 +1,9 @@
 package mode;
 
-import drofff.crypto.algorithm.AES;
-import drofff.crypto.enums.Size;
-import drofff.crypto.mode.CBCDecoder;
-import drofff.crypto.mode.CBCEncoder;
+import com.drofff.crypto.algorithm.AES;
+import com.drofff.crypto.enums.Size;
+import com.drofff.crypto.mode.CBCDecoder;
+import com.drofff.crypto.mode.CBCEncoder;
 import org.junit.Assert;
 import org.junit.Test;
 

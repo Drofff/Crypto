@@ -1,4 +1,4 @@
-package drofff.crypto.dto;
+package com.drofff.crypto.dto;
 
 public class RSAKey {
 

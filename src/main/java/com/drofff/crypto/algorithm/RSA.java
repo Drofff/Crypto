@@ -1,12 +1,12 @@
-package drofff.crypto.algorithm;
+package com.drofff.crypto.algorithm;
 
 import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.concurrent.ThreadLocalRandom;
 
-import drofff.crypto.dto.RSAKey;
-import drofff.crypto.dto.RSAKeys;
-import drofff.crypto.utils.MathUtils;
+import com.drofff.crypto.dto.RSAKeys;
+import com.drofff.crypto.dto.RSAKey;
+import com.drofff.crypto.utils.MathUtils;
 
 public class RSA {
 

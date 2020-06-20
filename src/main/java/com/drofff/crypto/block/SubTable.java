@@ -1,4 +1,4 @@
-package drofff.crypto.block;
+package com.drofff.crypto.block;
 
 public enum SubTable {
 
